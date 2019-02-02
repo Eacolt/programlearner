@@ -43,21 +43,23 @@ export default class GameMain extends Vue {
   }
   promiseLoadGameConfig() {
     return new Promise((resolve: any, reject: any) => {
-      Axios.get("./gameConfig.json").then((res: any) => {
+      Axios.get("./gameresource.json").then((res: any) => {
         resolve(res.data);
       });
     });
   }
-  promiseLoadGameRes(_reslist: any[]) {
+  promiseLoadGameRes(_reslist: any) {
     return new Promise((resolve: any) => {
-      PIXI.loader.add(_reslist).load(() => {
+      PIXI.loader.add(_reslist.base)
+      .add(_reslist.button)
+       .load(() => {
         resolve();
       });
     });
   }
   async gameStart() {
     let gameConfig: any = await this.promiseLoadGameConfig();
-    await this.promiseLoadGameRes(gameConfig.base);
+    await this.promiseLoadGameRes(gameConfig);
     return gameConfig;
   }
 }

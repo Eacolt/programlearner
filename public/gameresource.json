@@ -1,0 +1,43 @@
+{
+    "base":[
+        {
+            "name":"bg",
+            "url":"./img/bg.png"
+            
+        },
+        {
+            "name":"codeup",
+            "url":"./img/codeup.png"
+        },
+        {
+            "name":"next_dark",
+            "url":"./img/next_dark.png"
+        },
+        {
+            "name":"next_gray",
+            "url":"./img/next_gray.png"
+        },
+        {
+            "name":"next_light",
+            "url":"./img/next_light.png"
+        },
+        {
+            "name":"next_red",
+            "url":"./img/next_red.png"
+        }
+    ],
+    "button":[
+        {
+            "name":"clearroute_btn",
+            "url":"./img/button/clearroute_btn.png"
+        },
+        {
+            "name":"clearroute_over_btn",
+            "url":"./img/clearroute_over_btn.png"
+        },
+        {
+            "name":"clearroute_down_btn",
+            "url":"./img/clearroute_down_btn.png"
+        }
+    ]
+}
