@@ -21,6 +21,7 @@ class ScrollUI extends PIXI.Container {
     //点击内容部分滑动
 
     private scrollContent_touched:boolean  = false;
+    private scrollContent_overed:boolean = false;//鼠标触碰到滑动区域;
     private scrollContent_vectorDist:any = {x:0,y:0}
 
 
@@ -48,7 +49,7 @@ class ScrollUI extends PIXI.Container {
     private contentVerScrollDist:number = 0;//内容部分总垂直距离
     private contentVerScrollRatio:number = 0;
 
-    private contentOveredDist: number = 0;//内容部分多出去的长度;
+   // private contentVerScrollDist: number = 0;//内容部分多出去的长度;
     private contentOveredHorDist:number = 0;
 
 
@@ -69,41 +70,25 @@ class ScrollUI extends PIXI.Container {
 
 
     public set scrollTop(n:number){
-        // let vv = n;
-        // // if(vv>this._contentHeight-this._scrollHeight){
-        // //     vv = this._scrollHeight-this._scrollBarHeight;
-
-        // // }
-       // let scrollBarY;
+ 
         let scrollContentY;
 
         scrollContentY = n;
 
-        // if(scrollContentY>this.scrollDist){
-        //     scrollContentY = this.scrollDist
+        if(scrollContentY>this.contentVerScrollDist){
+            scrollContentY = this.contentVerScrollDist
 
-        // }
+        }else if(scrollContentY<=0){
+            scrollContentY = 0;
+        }
 
-
-       
-      
-       // this.scrolledDist =   scrollContentY ;
-
-        this.contentVerScrollRatio = scrollContentY / this.contentOveredDist;//移动比率;
-        this.scrollContent.y = -1 * (this.contentVerScrollRatio * this.contentOveredDist);
+        this.contentVerScrollRatio = scrollContentY / this.contentVerScrollDist;//移动比率;
+        this.scrollContent.y = -1 * (this.contentVerScrollRatio * this.contentVerScrollDist);
 
 
-       // this.scrollRatio = 
-        console.log(scrollContentY,this.contentOveredDist,this.contentVerScrollRatio, 'juli');
+        console.log(scrollContentY,this.contentVerScrollDist,this.contentVerScrollRatio, 'juli');
         this.scrollBar.y =  this.contentVerScrollRatio*this.scrollDist;
         this._scrollTop = scrollContentY;
-
-
-
-
-        // this.scrollContent.y+=n;
-
-     //   this.updateAll();
 
 
    
@@ -190,10 +175,10 @@ class ScrollUI extends PIXI.Container {
         this.scrollBar = new PIXI.Graphics();
         this.scrollHorBar = new PIXI.Graphics();
         this.scrollContent = new PIXI.Graphics();
-        this.scrollBg.beginFill(0x70b08f).drawRect(0, 0, this._scrollWidth, this._scrollHeight).endFill();
+        this.scrollBg.beginFill(0x70b08f,0).drawRect(0, 0, this._scrollWidth, this._scrollHeight).endFill();
 
         this.scrollMask.beginFill(0x767676).drawRect(0, 0, this._scrollWidth, this._scrollHeight).endFill();
-        this.scrollContent.beginFill(0x1e88e1).drawRect(0, 0, this._contentWidth, this._contentHeight).endFill();
+        this.scrollContent.beginFill(0x1e88e1,0).drawRect(0, 0, this._contentWidth, this._contentHeight).endFill();
 
 
         this.scrollBar.beginFill(0x71e11e).drawRect(0, 0, this._scrollBarWidth, this._scrollBarHeight).endFill();
@@ -218,49 +203,60 @@ class ScrollUI extends PIXI.Container {
 
         if (this._contentDirect === 'vertical' && this._contentHeight > this._scrollHeight) {
 
-            this.addChild(this.scrollBar);
-            this.scrollBar.interactive = true;
-            this.scrollBar.buttonMode = true;
-            this.scrollBar.on('pointerdown', this.scrollBarVertical_down_handle, this);
-
-            this.scrollBar.on('pointerup', this.scrollBarVertical_up_handle, this);
-            this.scrollBar.on('pointermove', this.scrollBarVertical_move_handle, this);
-            this.scrollBar.on('pointerupoutside', this.scrollBarVertical_up_handle, this);
+           
         }
-        if(this._contentDirect === 'horizontal' && this._contentWidth > this._scrollWidth){
-            this.addChild(this.scrollHorBar);
-            this.scrollHorBar.interactive = true;
-            this.scrollHorBar.buttonMode = true;
-            this.scrollHorBar.on('pointerdown', this.scrollBarHorizontal_down_handle, this);
+        this.addChild(this.scrollBar);
+        this.scrollBar.interactive = true;
+        this.scrollBar.buttonMode = true;
+        this.scrollBar.on('pointerdown', this.scrollBarVertical_down_handle, this);
 
-            this.scrollHorBar.on('pointerup', this.scrollBarHorizontal_up_handle, this);
-            this.scrollHorBar.on('pointermove', this.scrollBarHorizontal_move_handle, this);
-            this.scrollHorBar.on('pointerupoutside', this.scrollBarHorizontal_up_handle, this);
+        this.scrollBar.on('pointerup', this.scrollBarVertical_up_handle, this);
+        this.scrollBar.on('pointermove', this.scrollBarVertical_move_handle, this);
+        this.scrollBar.on('pointerupoutside', this.scrollBarVertical_up_handle, this);
+        if(this._contentHeight <= this._scrollHeight){
+            this.scrollBar.interactive = false;
+            this.scrollBar.renderable = false;
         }
-        if(this._contentDirect === 'all' && this._contentWidth > this._scrollWidth && this._contentHeight > this._scrollHeight){
-            this.addChild(this.scrollBar);
-            this.scrollBar.interactive = true;
-            this.scrollBar.buttonMode = true;
-            this.scrollBar.on('pointerdown', this.scrollBarVertical_down_handle, this);
+        // if(this._contentDirect === 'horizontal' && this._contentWidth > this._scrollWidth){
+        //     this.addChild(this.scrollHorBar);
+        //     this.scrollHorBar.interactive = true;
+        //     this.scrollHorBar.buttonMode = true;
+        //     this.scrollHorBar.on('pointerdown', this.scrollBarHorizontal_down_handle, this);
 
-            this.scrollBar.on('pointerup', this.scrollBarVertical_up_handle, this);
-            this.scrollBar.on('pointermove', this.scrollBarVertical_move_handle, this);
-            this.scrollBar.on('pointerupoutside', this.scrollBarVertical_up_handle, this);
-            //
-            this.addChild(this.scrollHorBar);
-            this.scrollHorBar.interactive = true;
-            this.scrollHorBar.buttonMode = true;
-            this.scrollHorBar.on('pointerdown', this.scrollBarHorizontal_down_handle, this);
+        //     this.scrollHorBar.on('pointerup', this.scrollBarHorizontal_up_handle, this);
+        //     this.scrollHorBar.on('pointermove', this.scrollBarHorizontal_move_handle, this);
+        //     this.scrollHorBar.on('pointerupoutside', this.scrollBarHorizontal_up_handle, this);
+        // }
+        // if(this._contentDirect === 'all' && this._contentWidth > this._scrollWidth && this._contentHeight > this._scrollHeight){
+        //     this.addChild(this.scrollBar);
+        //     this.scrollBar.interactive = true;
+        //     this.scrollBar.buttonMode = true;
+        //     this.scrollBar.on('pointerdown', this.scrollBarVertical_down_handle, this);
 
-            this.scrollHorBar.on('pointerup', this.scrollBarHorizontal_up_handle, this);
-            this.scrollHorBar.on('pointermove', this.scrollBarHorizontal_move_handle, this);
-            this.scrollHorBar.on('pointerupoutside', this.scrollBarHorizontal_up_handle, this);
+        //     this.scrollBar.on('pointerup', this.scrollBarVertical_up_handle, this);
+        //     this.scrollBar.on('pointermove', this.scrollBarVertical_move_handle, this);
+        //     this.scrollBar.on('pointerupoutside', this.scrollBarVertical_up_handle, this);
+        //     //
+        //     this.addChild(this.scrollHorBar);
+        //     this.scrollHorBar.interactive = true;
+        //     this.scrollHorBar.buttonMode = true;
+        //     this.scrollHorBar.on('pointerdown', this.scrollBarHorizontal_down_handle, this);
+
+        //     this.scrollHorBar.on('pointerup', this.scrollBarHorizontal_up_handle, this);
+        //     this.scrollHorBar.on('pointermove', this.scrollBarHorizontal_move_handle, this);
+        //     this.scrollHorBar.on('pointerupoutside', this.scrollBarHorizontal_up_handle, this);
 
          
-            console.log('!22!!!!',this._contentWidth > this._scrollWidth, this._contentHeight > this._scrollHeight)
-        }
+        //     console.log('!22!!!!',this._contentWidth > this._scrollWidth, this._contentHeight > this._scrollHeight)
+        // }
         console.log('!!!!!',this._contentWidth > this._scrollWidth, this._contentHeight > this._scrollHeight)
         this.startVerContentTouch();
+
+
+
+
+
+        this.windowAddMouseWheel();
     }
     public addContent(_child: any) {
         this.scrollContent.addChild(_child);
@@ -307,71 +303,105 @@ class ScrollUI extends PIXI.Container {
     private updateVerticalScrollBar() {
         let scrollBarHeight;
 
+     
+
     
             // this.scrollBar.beginFill(0x71e11e).drawRect(0,0,this._scrollBarWidth,this._scrollBarHeight).endFill();
             this.scrollBar.width = this._scrollBarWidth;
+
+            
 
 
             scrollBarHeight = this._scrollHeight / this._contentHeight * this._scrollHeight;
          
             this.scrollBar.height = scrollBarHeight<200 ? 200 : scrollBarHeight;//滚动条最低的限度200
-            this.contentOveredDist = this._contentHeight - this._scrollHeight;
-
-            this.scrollDist = this.scrollBg.height -  this.scrollBar.height;
+            this.contentVerScrollDist = this._contentHeight - this._scrollHeight <=0 ? 0 : this._contentHeight - this._scrollHeight;
+          
+            this.scrollDist = this.scrollBg.height -  this.scrollBar.height <=0 ? 0 : this.scrollBg.height -  this.scrollBar.height ;
      
-            console.log('scrollBarHeight', this.scrollDist, this.contentOveredDist)
+            console.log('scrollBarHeight', this.scrollDist, this.contentVerScrollDist)
             this.scrollBar.x = this.scrollBg.width+this.scrollbarVerOffset;
+
+
+            if(this._contentHeight <= this._scrollHeight){
+                this.scrollBar.interactive = false;
+                this.scrollBar.renderable = false;
+                this.scrollContent.interactive = false;
+                
+            }else{
+                this.scrollBar.interactive = true;
+                this.scrollBar.renderable = true;
+                this.scrollContent.interactive = true;
+            
+            }
+
+           
      
     }
 
 
     private startVerContentTouch(){
-        console.log('???>>>>',this.scrollContent)
+        
        
         this.scrollContent.interactive = true;
         this.scrollContent.on('pointerdown',this.scrollVer_down_handler,this);
         this.scrollContent.on('pointerup',this.scrollVer_up_handler,this);
         this.scrollContent.on('pointerupoutside',this.scrollVer_up_handler,this);
         this.scrollContent.on('pointermove',this.scrollVer_move_handler,this);
+        this.scrollContent.on('mouseover',this.scrollVer_over_handler,this);
+        this.scrollContent.on('mouseout',this.scrollVer_out_handler,this);
+
+        if(this._contentHeight <= this._scrollHeight){
+            this.scrollContent.interactive = false;
+          
+        }
+    }
+    //滚动条滑入。。
+    private scrollVer_over_handler(event:any){
+        this.scrollContent_overed = true;
+        console.log('moving!')
+
+
+    }
+    private scrollVer_out_handler(event:any){
+        this.scrollContent_overed = false;
+        console.log('movingout!')
     }
 
     private scrollVer_down_handler(event:any){
       
         this.scrollContent_touched = true;
-        this.scrollContent_vectorDist.y =  Math.abs(event.data.global.y - this.scrollContent.getGlobalPosition().y);
-          console.log('怎么会是是是',this.scrollContent_vectorDist.y);
+        this.scrollContent_vectorDist.y =  Math.abs(event.data.getLocalPosition(this.scrollContent).y - 0);
+          console.log('怎么会是是是',event.data.getLocalPosition(this.scrollContent).y);
     }
     private scrollVer_up_handler(){
         this.scrollContent_touched = false;
        // this.scrollTop = this._scrollTop;
     }
     private scrollVer_move_handler(event:any){
-        if(this.scrollContent_touched){
+        if(this.scrollContent_touched && this._contentHeight > this._scrollHeight){
 
-            
-           // console.log(7777)
-            this.contentVerScrolledDist = event.data.global.y-this.scrollContent_vectorDist.y;
-            if( this.contentVerScrolledDist> this.getGlobalPosition().y){
-                this.contentVerScrolledDist = this.getGlobalPosition().y
+               
+            this.contentVerScrolledDist = event.data.global.y-(this.scrollContent_vectorDist.y+this.getGlobalPosition().y);
+           // console.log('我看看啊啊啊',this.contentVerScrolledDist,this.contentVerScrollDist)
+            if( this.contentVerScrolledDist >0 ){
+                this.contentVerScrolledDist = 0
 
             }
-            if( this.contentVerScrolledDist<-1*this._contentHeight+this._scrollHeight){
-                this.contentVerScrolledDist = -1*this._contentHeight+this._scrollHeight
+            if( this.contentVerScrolledDist<-1*this.contentVerScrollDist){
+                this.contentVerScrolledDist = -1*this.contentVerScrollDist
             }
-            this.contentVerScrollRatio =Math.abs(this.contentVerScrolledDist)/(this._contentHeight-this._scrollHeight);
+            this.contentVerScrollRatio =Math.abs(this.contentVerScrolledDist)/(this._contentHeight-this._scrollHeight) ;//>= 1 ? 1 : Math.abs(this.contentVerScrolledDist)/(this._contentHeight-this._scrollHeight);
             console.log('....',this.scrollDist)
           this.scrollContent.y =  this.contentVerScrolledDist;
           this.scrollBar.y = 1 * (this.contentVerScrollRatio * this.scrollDist);
-       //   this.scrolledDist =   this._scrollBarY ;
-
-        //  this.scrollRatio = this.scrollContent.y / this.scrollDist;//移动比率;
-        //  this.scrollContent.y = -1 * (this.scrollRatio * this.contentOveredDist);
-          console.log(this.scrollRatio * this.contentOveredDist, 'juli');
+      
+          console.log(this.scrollRatio * this.contentVerScrollDist, 'juli');
        ///   this.scrollBar.y =   this._scrollBarY ;
       //    this._scrollTop = -1*this._scrollBarY;
 
 
-      this._scrollTop =  -1*this.scrollContent.y 
+      this._scrollTop =  -1*this.contentVerScrolledDist;
 
          // this.scrollTop = -1*scrollVector;
      //    console.log("hahah",scrollVector)
@@ -383,7 +413,7 @@ class ScrollUI extends PIXI.Container {
         this.scrollBar_touched = true;
         //this.scrollBg_glpos = this.scrollBg.toGlobal(new PIXI.Point(0, 0));
         let scrollBar_glPos = this.scrollBar.toGlobal(new PIXI.Point(0, 0));
-        let scrollDistY = event.data.global.y - scrollBar_glPos.y;
+        let scrollDistY = event.data.global.y - scrollBar_glPos.y+(this.getGlobalPosition().y);//记得加上当前对象的全局坐标Y值
         this.scrollBar_touchPos.y = scrollDistY;
 
 
@@ -394,7 +424,7 @@ class ScrollUI extends PIXI.Container {
 
     }
     private scrollBarVertical_move_handle(event: any) {
-        if (this.scrollBar_touched) {
+        if (this.scrollBar_touched ) {
             //vertical;
 
             this._scrollBarY = event.data.global.y - this.scrollBar_touchPos.y;
@@ -406,9 +436,9 @@ class ScrollUI extends PIXI.Container {
             }
             this.scrolledDist =   this._scrollBarY ;
 
-            this.scrollRatio = this.scrolledDist / this.scrollDist;//移动比率;
-            this.scrollContent.y = -1 * (this.scrollRatio * this.contentOveredDist);
-            console.log(this.scrollRatio * this.contentOveredDist, 'juli');
+            this.scrollRatio = this.scrolledDist / this.scrollDist >= 1 ? 1 : this.scrolledDist / this.scrollDist;//移动比率;
+            this.scrollContent.y = -1 * (this.scrollRatio * this.contentVerScrollDist);
+            console.log(this.scrollRatio * this.contentVerScrollDist, 'juli');
             this.scrollBar.y =   this._scrollBarY ;
             this._scrollTop = -1*this.scrollContent.y;
 
@@ -448,8 +478,31 @@ class ScrollUI extends PIXI.Container {
         }
     }
     private removedFromStage() {
-
+        Labs.clearAllChildren(this);
+        this.removeAllListeners();
+        this.removeChildren();
     }
+  
+ private  windowAddMouseWheel() {
+     var self = this;
+    var scrollFunc = function (e:any) {
+        e = e || window.event;
+        if (e.wheelDelta && self.scrollContent_overed) {  //判断浏览器IE，谷歌滑轮事件
+           
+            self.scrollTop += e.wheelDelta;
+        } else if (e.detail && self.scrollContent_overed) {  //Firefox滑轮事件
+            self.scrollTop += e.wheelDelta;
+        }
+    };
+    //给页面绑定滑轮滚动事件
+    if (document.addEventListener) {
+        document.addEventListener('DOMMouseScroll', scrollFunc, false);
+    }
+//滚动滑轮触发scrollFunc方法
+    window.onmousewheel = (window.document as any).onmousewheel = scrollFunc;
+}
+
+    
 }
 export default ScrollUI;
 /**

@@ -5,9 +5,59 @@
             "url":"./img/bg.png"
             
         },
+
+        {
+            "name":"codebtn_down",
+            "url":"./img/codebtn_down.png"
+        },
+
+        {
+            "name":"codebtn_up",
+            "url":"./img/codebtn_up.png"
+        },
+
+        {
+            "name":"codebtn_left",
+            "url":"./img/codebtn_left.png"
+        },
+
+        {
+            "name":"codebtn_right",
+            "url":"./img/codebtn_right.png"
+        },
+
+
+        {
+            "name":"codebtn_down_over",
+            "url":"./img/codebtn_down_over.png"
+        },
+
+        {
+            "name":"codebtn_up_over",
+            "url":"./img/codebtn_up_over.png"
+        },
+
+        {
+            "name":"codebtn_left_over",
+            "url":"./img/codebtn_left_over.png"
+        },
+
+        {
+            "name":"codebtn_right_over",
+            "url":"./img/codebtn_right_over.png"
+        },
+
         {
             "name":"codeup",
             "url":"./img/codeup.png"
+        },
+        {
+            "name":"codedown",
+            "url":"./img/codedown.png"
+        },
+        {
+            "name":"startcoding",
+            "url":"./img/startcoding.png"
         },
         {
             "name":"next_dark",
