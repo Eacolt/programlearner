@@ -59,9 +59,9 @@ class ScrollUI extends PIXI.Container {
 
     public scrollBg!: PIXI.Graphics;//滑动背景;
     public scrollContent!: PIXI.Graphics;//滑动内容
-    constructor(option: any = { direction: 'vertical' }) {
+    constructor() {
         super();
-        this._contentDirect = option.direction || 'vertical';
+   
         this.on('added', this.addedToStage, this);
     }
 
@@ -201,10 +201,12 @@ class ScrollUI extends PIXI.Container {
 
 
 
-        if (this._contentDirect === 'vertical' && this._contentHeight > this._scrollHeight) {
+        if ( this._contentHeight > this._scrollHeight) {
+            this._contentDirect = 'vertical'
 
            
         }
+      //  if(this._contentHeight>)
         this.addChild(this.scrollBar);
         this.scrollBar.interactive = true;
         this.scrollBar.buttonMode = true;
@@ -272,11 +274,7 @@ class ScrollUI extends PIXI.Container {
         if(this._contentDirect === 'horizontal'){
             this.updateHorizontalScrollBar.call(this);
         }
-        if(this._contentDirect === 'all'){
-            this.updateVerticalScrollBar.call(this);
-            this.updateHorizontalScrollBar.call(this);
-
-        }
+       
 
      
         console.log('高度多少', this.scrollContent.height)

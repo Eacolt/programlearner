@@ -7,7 +7,7 @@
         },
         {
             "name":"routebox",
-            "url":"./img/routebox"
+            "url":"./img/routebox.png"
         },
 
         {
@@ -82,6 +82,43 @@
     ],
     "button":[
         {
+            "name":"run_btn",
+            "url":"./img/button/run_btn.png"
+        },
+        {
+            "name":"run_over_btn",
+            "url":"./img/button/run_over_btn.png"
+        },
+        {
+            "name":"run_down_btn",
+            "url":"./img/button/run_down_btn.png"
+        },
+        {
+            "name":"run_disbale_btn",
+            "url":"./img/button/run_disable_btn.png"
+        },
+
+
+        {
+            "name":"again_btn",
+            "url":"./img/button/again_btn.png"
+        },
+        {
+            "name":"again_over_btn",
+            "url":"./img/button/again_over_btn.png"
+        },
+        {
+            "name":"again_down_btn",
+            "url":"./img/button/again_down_btn.png"
+        },
+        {
+            "name":"again_disable_btn",
+            "url":"./img/button/again_disable_btn.png"
+        },
+
+
+
+        {
             "name":"clearroute_btn",
             "url":"./img/button/clearroute_btn.png"
         },
@@ -105,5 +142,6 @@
             "name":"submit_btn",
             "url":"./img/button/submit_btn.png"
         }
+       
     ]
 }
