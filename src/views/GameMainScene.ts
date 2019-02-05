@@ -8,14 +8,25 @@ export default class GameMainScene extends PIXI.Container{
     private gameTicker:any;
     private gamebg!:PIXI.Sprite;
     private scrollUI!:ScrollUI
-    private clearroute_btn!:ButtonUI;
+   
 
     private upperCode!:PIXI.Sprite;
     private downerCode!:PIXI.Sprite;
-    private leftpadding:number = 30;
-    private downerCodePaddingUp:number = 500;
+    private leftpadding:number = 110;
+    private downerCodePaddingUp:number = 436;
     private startcoding!:PIXI.Sprite;
     private bottomChoosedBtn_arr!:PIXI.Sprite[];//下部按钮4个;
+    private movedChoosedBtn_arr!:PIXI.Sprite[];
+
+    private digitalText!:PIXI.Text;
+    private _digitalLine:number = 12;
+    //flyUFO;
+    private ufo!:PIXI.Sprite;
+    private ufoBoxes_arr!:any[];
+    //buttons;
+    private submitBtn!:ButtonUI;
+    private clearroute_btn!:ButtonUI;
+
     
     constructor(){
         super();
@@ -25,15 +36,100 @@ export default class GameMainScene extends PIXI.Container{
     private publicClickHandler(){
 
     }
-    private add_bottomChooseBtn(){
+    private  codeMinus(){
+        // this.scrollUI.contentHeight+=100;
+        if(this._digitalLine<=13)return;
+        let digitalStr = '';
+        this._digitalLine--
+        for(let i=1;i<this._digitalLine;i++){
+            digitalStr+=i+'\n';
+ 
+ 
+        }
+        this.digitalText.text = digitalStr;
+         
+         this.downerCode.y-=60;
+         
+         this.scrollUI.updateAll();
+     }
+
+    private  codeAdded(){
+       // this.scrollUI.contentHeight+=100;
+       let digitalStr = '';
+       this._digitalLine++;
+       for(let i=1;i<this._digitalLine;i++){
+           digitalStr+=i+'\n';
+
+
+       }
+       this.digitalText.text = digitalStr;
+        
+        this.downerCode.y+=60;
+        
+        this.scrollUI.updateAll();
+    }
+  //  private get digitalLine(){}
+    private add_overflowed_bottomBtns(){
+        this.movedChoosedBtn_arr = [];
+        let arr = ['codebtn_up_over','codebtn_down_over','codebtn_left_over','codebtn_right_over']
+        for(let i=0;i<4;i++){
+            let btn = new PIXI.Sprite(Labs.getTexture(arr[i]));
+            this.addChild(btn);
+            this.movedChoosedBtn_arr.push(btn);
+            
+        };
+
+    }
+    private add_bottomChooseBtn(_x:number = 0,_y:number = 0,_w = 500, _h = 100){
+        let initX=_x,initY=_y,distW=_w,distH=_h;
+        this.bottomChoosedBtn_arr = [];
         let arr = ['codebtn_up','codebtn_down','codebtn_left','codebtn_right']
         for(let i=0;i<4;i++){
             let btn = new PIXI.Sprite(Labs.getTexture(arr[i]));
-            this.addChild(btn)
-        }
+            this.addChild(btn);
+            this.bottomChoosedBtn_arr.push(btn);
+            // _x+=200;
+            // if(i>2){
+            //     _y += 100;
+            //     _x = 0;
+            // }
+           // let distX = 300,distY = 200;
+            
+             if(i>0 && i<2){
+                initX+=distW;
+                //_y = 0;
+            }
+            if(i===2){
+                initX = _x;
+                initY+=distH;
+            }else if(i>2 && i<=4){
+                initX+=distW;
+            }
+        
+         
+         
+            this.bottomChoosedBtn_arr[i].x = initX;
+            this.bottomChoosedBtn_arr[i].y = initY;
 
+            // if(i==2){
+            //     this.bottomChoosedBtn_arr[i].x =  0;
+            //     this.bottomChoosedBtn_arr[i].y =  _y+100;
+            // }
+           
+        }
+    }
+    //UFO矩阵
+    private addUfoMatrix(){
+        for(let row=0;row<9;row++){
+            for(let col=0;col<9;col++){
+                
+            }
+        }
     }
     private addedToStage(){
+        this.ufoBoxes_arr = [];
+        this.submitBtn = new ButtonUI('submit_btn')
+        this.digitalText = new PIXI.Text('1\n2\n3',{fill:0x000000,fontSize:31,lineHeight:62,align:'right'});
         this.gamebg = new PIXI.Sprite(Labs.getTexture('bg'));
         this.clearroute_btn = new ButtonUI('clearroute_btn')
         this.scrollUI = new ScrollUI({direction:'vertical'});
@@ -47,7 +143,7 @@ export default class GameMainScene extends PIXI.Container{
         this.downerCode.x = this.leftpadding;
         this.downerCode.y = this.downerCodePaddingUp;
 
-        this.startcoding.y = this.upperCode.y+420;
+        this.startcoding.y = this.upperCode.y+410;
         this.startcoding.x = this.leftpadding+100;
 
      
@@ -56,28 +152,32 @@ export default class GameMainScene extends PIXI.Container{
        this.scrollUI.scrollWidth= 1920/2+50;
        this.scrollUI.contentWidth = 1920/2+50;
 
-
+      // this.digitalText.y = 123;
+       this.digitalText.x = 30;
+       this.digitalText.y = -5;
         this.gamebg.interactive = true;
-        this.addChild(this.gamebg);
+    
         this.scrollUI.y = 125;
         this.scrollUI.x = 0;
 
      
 
-
+        this.addChild(this.gamebg);
         this.addChild(this.scrollUI);
+       
+        this.submitBtn.setStatusTexture('submit_over_btn','submit_down_btn');
+        this.submitBtn.buttonStatus = ['over','down']
+        this.addChild(this.submitBtn);
+        this.submitBtn.buttonTapHandler = this.codeMinus.bind(this);
+
+this.submitBtn.x = 1200;
   
 
        // this.scrollUI.updateAll();
        
-     //   this.gamebg.on('pointerdown',this.gamebg_downHandler,this);
-  
+        this.scrollUI.addContent(this.digitalText);
 
-     //   mybox2.y = this.scrollUI.scrollContent.height+240;//mybox2.height;
 
-        console.log(this.scrollUI.scrollContent.height,'高度')
-      //  this.scrollUI.addContent(mybox);
-       // this.scrollUI.addContent(mybox2);
         this.scrollUI.addContent(this.upperCode);
         this.scrollUI.addContent(this.downerCode);
 
@@ -85,7 +185,7 @@ export default class GameMainScene extends PIXI.Container{
 
 
 
-
+        this.codeAdded();
 
     //     setTimeout(()=>{
       
@@ -105,17 +205,21 @@ export default class GameMainScene extends PIXI.Container{
 
    
 
- 
-        this.addChild(this.clearroute_btn);
-        this.clearroute_btn.x = 400;
+    this.clearroute_btn.x = 400;
         this.clearroute_btn.buttonTapHandler = this.gamebg_downHandler.bind(this)
   
         this.scrollUI.updateAll();
+        this.addChild(this.clearroute_btn);
+     
+
+        this.add_bottomChooseBtn(20,880);
+        this.add_overflowed_bottomBtns();
     }
     private gamebg_downHandler(){
         console.log('funck')
 
-        this.scrollUI.scrollTop+=20;
+        this.codeAdded();
+
         this.publicClickHandler();
     }
 

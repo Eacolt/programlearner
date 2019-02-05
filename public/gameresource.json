@@ -5,6 +5,10 @@
             "url":"./img/bg.png"
             
         },
+        {
+            "name":"routebox",
+            "url":"./img/routebox"
+        },
 
         {
             "name":"codebtn_down",
@@ -83,11 +87,23 @@
         },
         {
             "name":"clearroute_over_btn",
-            "url":"./img/clearroute_over_btn.png"
+            "url":"./img/button/clearroute_over_btn.png"
         },
         {
             "name":"clearroute_down_btn",
-            "url":"./img/clearroute_down_btn.png"
+            "url":"./img/button/clearroute_down_btn.png"
+        },
+        {
+            "name":"submit_down_btn",
+            "url":"./img/button/submit_down_btn.png"
+        },
+        {
+            "name":"submit_over_btn",
+            "url":"./img/button/submit_over_btn.png"
+        },
+        {
+            "name":"submit_btn",
+            "url":"./img/button/submit_btn.png"
         }
     ]
 }
