@@ -66,6 +66,9 @@ class ScrollUI extends PIXI.Container {
     public scrollBg!: PIXI.Graphics;//滑动背景;
     public scrollContent!: PIXI.Graphics;//滑动内容；
     public minScrollLen: number = 200;//最小滑动条长度
+
+
+    private _lock:boolean = false;//禁止一切滑动;
     constructor() {
         super();
 
@@ -74,7 +77,20 @@ class ScrollUI extends PIXI.Container {
 
 
 
+    public set lock(_b:boolean){
+        if(_b === true){
+            this.scrollContent.interactive = false;
+            this.scrollBar.interactive= false;
 
+        }else{
+            this.scrollContent.interactive = true;
+            this.scrollBar.interactive= true;
+        }
+        this._lock = _b;
+    }
+    public get lock(){
+        return this._lock;
+    }
 
     public set scrollTop(n: number) {
 
@@ -535,10 +551,10 @@ class ScrollUI extends PIXI.Container {
 
             // }
             let islong = self._contentHeight > self._scrollHeight
-            if (e.wheelDelta && self.scrollContent_overed && islong) {  //判断浏览器IE，谷歌滑轮事件
+            if (e.wheelDelta && self.scrollContent_overed && islong && !self.lock) {  //判断浏览器IE，谷歌滑轮事件
 
                 self.scrollTop += e.wheelDelta;
-            } else if (e.detail && self.scrollContent_overed && islong) {  //Firefox滑轮事件
+            } else if (e.detail && self.scrollContent_overed && islong && !self.lock) {  //Firefox滑轮事件
                 self.scrollTop += e.wheelDelta;
             }
         };
