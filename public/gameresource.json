@@ -78,9 +78,102 @@
         {
             "name":"next_red",
             "url":"./img/next_red.png"
+        },
+        {
+            "name":"keyboard",
+            "url":"./img/keyboard.png"
         }
     ],
     "button":[
+        {
+            "name":"key0",
+            "url":"./img/button/key0_btn.png"
+        },
+        {
+            "name":"key0_down",
+            "url":"./img/button/key0_btn.png"
+        },
+        {
+            "name":"key1",
+            "url":"./img/button/key1_btn.png"
+        },
+        {
+            "name":"key1_down",
+            "url":"./img/button/key1_down_btn.png"
+        },
+        {
+            "name":"key2",
+            "url":"./img/button/key2_btn.png"
+        },
+        {
+            "name":"key2_down",
+            "url":"./img/button/key2_down_btn.png"
+        },
+        {
+            "name":"key3",
+            "url":"./img/button/key3_btn.png"
+        },
+        {
+            "name":"key3_down",
+            "url":"./img/button/key3_down_btn.png"
+        },
+        {
+            "name":"key4",
+            "url":"./img/button/key4_btn.png"
+        },
+        {
+            "name":"key4_down",
+            "url":"./img/button/key4_down_btn.png"
+        },
+        {
+            "name":"key5",
+            "url":"./img/button/key5_btn.png"
+        },
+        {
+            "name":"key5_down",
+            "url":"./img/button/key5_down_btn.png"
+        },
+        {
+            "name":"key6",
+            "url":"./img/button/key6_btn.png"
+        },
+        {
+            "name":"key6_down",
+            "url":"./img/button/key6_down_btn.png"
+        },
+        {
+            "name":"key7",
+            "url":"./img/button/key7_btn.png"
+        },
+        {
+            "name":"key7_down",
+            "url":"./img/button/key7_down_btn.png"
+        },
+        {
+            "name":"key8",
+            "url":"./img/button/key8_btn.png"
+        },
+        {
+            "name":"key8_down",
+            "url":"./img/button/key8_down_btn.png"
+        },
+        {
+            "name":"key9",
+            "url":"./img/button/key9_btn.png"
+        },
+        {
+            "name":"key9_down",
+            "url":"./img/button/key9_down_btn.png"
+        },
+        {
+            "name":"keydel",
+            "url":"./img/button/keydel_btn.png"
+        },
+        {
+            "name":"keydel_down",
+            "url":"./img/button/keydel_down_btn.png"
+        },
+        
         {
             "name":"run_btn",
             "url":"./img/button/run_btn.png"
@@ -96,6 +189,10 @@
         {
             "name":"run_disbale_btn",
             "url":"./img/button/run_disable_btn.png"
+        },
+        {
+            "name":"keyselect_btn",
+            "url":"./img/keyselect_btn.png"
         },
 
 
